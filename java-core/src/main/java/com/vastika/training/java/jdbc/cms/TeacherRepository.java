@@ -7,39 +7,38 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentRepository implements CRUDRepository<Student>{
-    public List<Student> findAll() {
+public class TeacherRepository implements CRUDRepository<Teacher> {
+    public List<Teacher> findAll(){
         Connection connection = DbConnector.getConnection();
+        List<Teacher> teachers = new ArrayList<>();
 
-        List<Student> students = new ArrayList<>();
 
         try {
-            PreparedStatement ps = connection.prepareStatement("select * from student");
-
+            PreparedStatement ps = connection.prepareStatement("select * from teachers");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String firstName = rs.getString("firstName");
                 String lastName = rs.getString("lastName");
-                double gpa = rs.getDouble("gpa");
+                String subject = rs.getString("subject");
 
-                Student student = new Student(id, firstName, lastName, gpa);
+                Teacher teacher = new Teacher(id, firstName, lastName,subject);
 
-                students.add(student);
+                teachers.add(teacher);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return teachers;
 
-        return students;
     }
 
-    public Student findById(int userId) {
+    public Teacher findById(int userId) {
         Connection connection = DbConnector.getConnection();
 
         try {
-            PreparedStatement ps = connection.prepareStatement("select * from student where id = " + userId);
+            PreparedStatement ps = connection.prepareStatement("select * from teachers where id = " + userId);
 
             ResultSet rs = ps.executeQuery();
 
@@ -47,9 +46,9 @@ public class StudentRepository implements CRUDRepository<Student>{
                 int id = rs.getInt("id");
                 String firstName = rs.getString("firstName");
                 String lastName = rs.getString("lastName");
-                double gpa = rs.getDouble("gpa");
+                String subject = rs.getString("subject");
 
-                return new Student(id, firstName, lastName, gpa);
+                return new Teacher(id, firstName, lastName, subject);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,30 +57,12 @@ public class StudentRepository implements CRUDRepository<Student>{
         return null;
     }
 
-    public boolean update(Student student) {
+    public boolean insertTeacher(Teacher teacher) {
         Connection connection = DbConnector.getConnection();
 
         try {
-            String sql = "update student set firstName='" + student.getFirstName()
-                    + "', lastName='" + student.getLastName() + "', gpa=" + student.getGpa() + " where id=" + student.getId();
 
-            PreparedStatement ps = connection.prepareStatement(sql);
-
-            int rs = ps.executeUpdate();
-
-            return rs > 0 ? true : false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean insertStudents(Student student) {
-        Connection connection = DbConnector.getConnection();
-
-        try {
-            String sql = "INSERT INTO student (id, FirstName, LastName, gpa) VALUES ("+student.getId()+", '"+student.getFirstName()+"',"+"'"+student.getLastName()+"',"+student.getGpa()+")";
-
+            String sql = "INSERT INTO teachers (id, FirstName, LastName, Subject) VALUES ("+teacher.getId()+", '"+teacher.getFirstName()+"',"+"'"+teacher.getLastName()+"',"+"'"+teacher.getSubject()+"')";
 
             PreparedStatement ps = connection.prepareStatement(sql);
 
@@ -95,19 +76,43 @@ public class StudentRepository implements CRUDRepository<Student>{
     }
 
 
-    public boolean deleteById(int delid){
 
-        try{
-            String sql="DELETE from student where id="+delid;
-            Connection connection = DbConnector.getConnection();
-            PreparedStatement ps=connection.prepareStatement(sql);
+    public boolean update(Teacher teacher) {
+        Connection connection = DbConnector.getConnection();
+
+        try {
+            String sql = "update teachers set firstName='" + teacher.getFirstName()
+                    + "', lastName='" + teacher.getLastName() + "', subject='" + teacher.getSubject() + "' where id=" + teacher.getId();
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            int rs = ps.executeUpdate();
+
+            return rs > 0 ? true : false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteById(int teacherId){
+
+
+        try {
+            String sql = "DELETE FROM teachers WHERE id = "+teacherId;
+                Connection connection = DbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql); {
+
+
+            // execute the delete statement
             ps.executeUpdate();
             return true;
-        }catch(SQLException e){
 
         }
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+    }
 
-
-        return false;
+return false;
     }
 }
