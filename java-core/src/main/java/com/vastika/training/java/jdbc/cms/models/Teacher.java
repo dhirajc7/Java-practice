@@ -1,4 +1,4 @@
-package com.vastika.training.java.jdbc.cms;
+package com.vastika.training.java.jdbc.cms.models;
 
 public class Teacher {
     private int id;

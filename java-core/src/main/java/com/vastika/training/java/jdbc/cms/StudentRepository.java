@@ -1,5 +1,7 @@
 package com.vastika.training.java.jdbc.cms;
 
+import com.vastika.training.java.jdbc.cms.models.Student;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

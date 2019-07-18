@@ -1,4 +1,7 @@
-package com.vastika.training.java.jdbc.cms;
+package com.vastika.training.java.jdbc.cms.controllers;
+
+import com.vastika.training.java.jdbc.cms.StudentRepository;
+import com.vastika.training.java.jdbc.cms.models.Student;
 
 import java.util.List;
 import java.util.Scanner;
