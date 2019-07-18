@@ -25,7 +25,7 @@ public class StaffService implements BaseService {
         System.out.println("4. To delete staff record");
         System.out.println("5. To insert staff record");
 
-        System.out.println("---------------------------");
+        System.out.println("--------------------------");
 
         int choice = scanner.nextInt();
 
